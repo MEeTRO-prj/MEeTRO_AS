@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -64,6 +65,7 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 	ArrayAdapter<String> adapterRideSt;
 	SearchRoom searchRoom;
 	Spinner spinnerRideSt; // 乗車駅プルダウン
+	Button btnSaveName;
 
 	String railwayId;
 	String rideStId;    // Ex) odpt:Station.TokyoMetro.Shibuya
@@ -103,7 +105,7 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 		searchRoom.execute(roomId);
 
 		// 乗る駅を決めるボタン押下でServer -> DB.MEMBERに登録
-		Button btnSaveName = (Button) findViewById(R.id.buttonDecideStation);
+		btnSaveName = (Button) findViewById(R.id.buttonDecideStation);
 		btnSaveName.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -231,7 +233,6 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 				v_count = value.length - 4;
 			}
 			final StationApiBean[] stations = new StationApiBean[v_count];
-			System.out.println("v_count: " + v_count);
 			for(StationApiBean sta: value) {
 				String stCodeAlp = sta.getStationCode().substring(0, 1);
 				int stCodeNum = Integer.parseInt(sta.getStationCode().substring(1, 3));
@@ -243,40 +244,51 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 				stations[stCodeNum - 1].setTitle(sta.getTitle());
 				stations[stCodeNum - 1].setStationCode(sta.getStationCode());
 			};
-			// 乗車駅	
+			// 乗車駅
 			adapterRideSt.clear(); // 前回の値をリセット！
-			int x = 0;
+			int x = 0, y = 0;
+			final ArrayList<StationApiBean> availStations = new ArrayList<StationApiBean>();
+			// 乗車可能区間のみの駅を表示させる
 			for(StationApiBean staSort: stations) {
 				if (x == 0) {
-					if (!room.getRideSt().equals(staSort.getTitle()) && !room.getRideSt().equals(staSort.getTitle())) {
-						continue;
-					} else if (room.getRideSt().equals(staSort.getTitle()) || room.getDestSt().equals(staSort.getTitle())) {
+					if (room.getRideSt().equals(staSort.getTitle()) || room.getDestSt().equals(staSort.getTitle())) {
 						x++;
 					}
 				} else {
 					if (room.getRideSt().equals(staSort.getTitle()) || room.getDestSt().equals(staSort.getTitle())) {
 						break;
 					}
+					Log.d(TAG, "staSort.getTitle()" + staSort.getTitle());
+					availStations.add(y, staSort);
 					adapterRideSt.add(staSort.getTitle());
+					y++;
 				}
 			}
 			// Adapterの作成
 			spinnerRideSt = (Spinner) findViewById(R.id.spinnerRideSt);
 			spinnerRideSt.setAdapter(adapterRideSt);
-			// Spinnerの選択イベントを取得
-			spinnerRideSt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					int itemId = (int) parent.getSelectedItemId();
-					rideStId = stations[itemId].getSameAs();
-					rideStTitle = stations[itemId].getTitle();
-					rideStCode = stations[itemId].getStationCode();
-				}
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// TODO Auto-generated method stub
-				}
-			});
+			if (availStations.size() == 0 ) {
+				adapterRideSt.add("選択可能な駅がありません。");
+				spinnerRideSt.setEnabled(false);
+				btnSaveName.setEnabled(false);
+			} else {
+				// Spinnerの選択イベントを取得
+				spinnerRideSt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+						int itemId = (int) parent.getSelectedItemId();
+						rideStId = availStations.get(itemId).getSameAs();
+						rideStTitle = availStations.get(itemId).getTitle();
+						rideStCode = availStations.get(itemId).getStationCode();
+						Log.d(TAG, "availStations.get(itemId).getTitle()" + availStations.get(itemId).getTitle());
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> parent) {
+						// TODO Auto-generated method stub
+					}
+				});
+			}
 			getSupportLoaderManager().destroyLoader(loader.getId());
 		}
 		@Override
