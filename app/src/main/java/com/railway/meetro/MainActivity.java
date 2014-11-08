@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -189,8 +190,8 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}
 
-		TextView makeRoom = (TextView) findViewById(R.id.makeRoom);
-		TextView enterRoom   = (TextView) findViewById(R.id.enterRoom);
+        Button makeRoom = (Button) findViewById(R.id.makeRoom);
+        Button enterRoom   = (Button) findViewById(R.id.enterRoom);
 
 		makeRoom.setOnClickListener(new OnClickListener() {
 			@Override

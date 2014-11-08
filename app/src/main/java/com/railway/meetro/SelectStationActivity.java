@@ -72,6 +72,7 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 
 	HashMap<String, String> roomInfo;
 	JoinRoom joinRoom;
+	RoomBean room;
 
 	// DB
 	MeetroDbOpenHelper userHelper = new MeetroDbOpenHelper(this);
@@ -134,7 +135,7 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 	@Override
 	public void onPostExecute(RoomBean result) {
 		// Ex) 2014-10-21 -> 20141021
-		RoomBean room = result;
+		room = result;
 		railwayId = room.getRailwayId();
 		String roomRideDate = room.getRideDate().replace("-", "");
 		// Ex) 20141021 -> 2014
@@ -148,12 +149,12 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 				Integer.parseInt(mYear),
 				Integer.parseInt(mMonth) - 1,
 				Integer.parseInt(mDate)
-				);
+		);
 		String day_of_week;
 		switch(calen.get(Calendar.DAY_OF_WEEK)) {
-		case Calendar.SUNDAY: day_of_week = "odpt:holidays"; break;
-		case Calendar.SATURDAY: day_of_week = "odpt:saturdays"; break;
-		default: day_of_week = "odpt:weekdays";
+			case Calendar.SUNDAY: day_of_week = "odpt:holidays"; break;
+			case Calendar.SATURDAY: day_of_week = "odpt:saturdays"; break;
+			default: day_of_week = "odpt:weekdays";
 		}
 		System.out.println(day_of_week);
 
@@ -167,8 +168,8 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 		// 時間区分: 0->発, 1->着
 		String roomTimeTypeJpn = "";
 		switch(room.getTimeType()) {
-		case 0: roomTimeTypeJpn = "発";break;
-		case 1: roomTimeTypeJpn = "着";break;
+			case 0: roomTimeTypeJpn = "発";break;
+			case 1: roomTimeTypeJpn = "着";break;
 		}
 
 		// 路線名の日本語変換用DBデータ取得
@@ -219,6 +220,9 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 		@Override
 		public void onLoadFinished(Loader<StationApiBean[]> loader, StationApiBean[] value) {
 			int v_count = 0;
+			Log.d(TAG, "room.getRideSt(): " + room.getRideSt());
+			Log.d(TAG, "room.getDestSt(): " + room.getDestSt());
+
 			// 丸ノ内線の分岐線対応
 			// 分岐線は3駅だが、中野坂上が両方の路線に存在するので-4する
 			if(!value[0].getStationCode().substring(0, 1).equals("M")) {
@@ -241,8 +245,20 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 			};
 			// 乗車駅	
 			adapterRideSt.clear(); // 前回の値をリセット！
+			int x = 0;
 			for(StationApiBean staSort: stations) {
-				adapterRideSt.add(staSort.getTitle());
+				if (x == 0) {
+					if (!room.getRideSt().equals(staSort.getTitle()) && !room.getRideSt().equals(staSort.getTitle())) {
+						continue;
+					} else if (room.getRideSt().equals(staSort.getTitle()) || room.getDestSt().equals(staSort.getTitle())) {
+						x++;
+					}
+				} else {
+					if (room.getRideSt().equals(staSort.getTitle()) || room.getDestSt().equals(staSort.getTitle())) {
+						break;
+					}
+					adapterRideSt.add(staSort.getTitle());
+				}
 			}
 			// Adapterの作成
 			spinnerRideSt = (Spinner) findViewById(R.id.spinnerRideSt);
@@ -260,7 +276,7 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 				public void onNothingSelected(AdapterView<?> parent) {
 					// TODO Auto-generated method stub
 				}
-			});		
+			});
 			getSupportLoaderManager().destroyLoader(loader.getId());
 		}
 		@Override
