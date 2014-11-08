@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Standard Colors -->
+    <item name="blue" type="color">#FF33B5E5</item>
+    <item name="purple" type="color">#FFAA66CC</item>
+    <item name="green" type="color">#FF99CC00</item>
+    <item name="orange" type="color">#FFFFBB33</item>
+    <item name="red" type="color">#FFFF4444</item>
+    <item name="darkblue" type="color">#FF0099CC</item>
+    <item name="darkpurple" type="color">#FF9933CC</item>
+    <item name="darkgreen" type="color">#FF669900</item>
+    <item name="darkorange" type="color">#FFFF8800</item>
+    <item name="darkred" type="color">#FFCC0000</item>
+    <item name="white" type="color">#FFFFFF</item>
+
+    <integer-array name="androidcolors">
+        <item>@color/blue</item>
+        <item>@color/purple</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/darkblue</item>
+        <item>@color/darkpurple</item>
+        <item>@color/darkgreen</item>
+        <item>@color/darkorange</item>
+        <item>@color/darkred</item>
+        <item>@color/white</item>
+    </integer-array>
+
+    <!-- METRO Color Scheme -->
+    <color name="ginza">#f3a80e</color>
+    <color name="marunouchi">#e71119</color>
+    <color name="hibiya">#d0c7b8</color>
+    <color name="tozai">#00a1e9</color>
+    <color name="chiyoda">#0da95c</color>
+    <color name="yurakucho">#d4ae5b</color>
+    <color name="hanzomon">#927cba</color>
+    <color name="nanboku">#0fb29b</color>
+    <color name="fukutoshin">#ab5a23</color>
+
+</resources>

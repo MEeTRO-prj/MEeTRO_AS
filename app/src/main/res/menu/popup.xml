@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/changeStation"
+        android:title="乗る駅を変える">
+    </item>
+    <item
+        android:id="@+id/changeTrain"
+        android:title="電車を変更する">
+    </item>
+    <item
+        android:id="@+id/changeDestSt"
+        android:title="待ち合わせ場所を変える">
+    </item>
+
+</menu>

@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
+
+    defaultConfig {
+        applicationId "com.railway.meetro"
+        minSdkVersion 10
+        targetSdkVersion 21
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:21.+'
+    compile 'com.google.android.gms:play-services:+'
+    compile 'com.android.support:appcompat-v7:21.+'
+    compile files('libs/jackson-annotations-2.1.4.jar')
+    compile files('libs/jackson-core-2.1.4.jar')
+    compile files('libs/jackson-databind-2.1.4.jar')
+    compile files('libs/spring-android-auth-1.0.1.RELEASE.jar')
+    compile files('libs/spring-android-core-1.0.1.RELEASE.jar')
+    compile files('libs/spring-android-rest-template-1.0.1.RELEASE.jar')
+}

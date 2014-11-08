@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.railway.meetro"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!-- Connecting to INTERNET -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Getting Google Account -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- Wake up from sleep when receiving a message -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Receive a message from GCM -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.railway.meetro.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.railway.meetro.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.railway.meetro.c2dm.permission.RECEIVE" />
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".IntroActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="meetro"
+                    android:scheme="railway" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".CreateUserActivity" >
+        </activity>
+        <activity android:name=".MainActivity" >
+        </activity>
+        <activity android:name=".MakeRoomActivity" >
+        </activity>
+        <activity android:name=".EnterRoomActivity" >
+        </activity>
+        <activity android:name=".SelectTrainActivity" >
+        </activity>
+        <activity android:name=".CompleteActivity" >
+        </activity>
+        <activity android:name=".RoomListActivity" >
+        </activity>
+        <activity android:name=".SelectStationActivity" >
+        </activity>
+        <activity android:name=".RoomTopActivity" >
+        </activity>
+
+        <receiver
+            android:name="com.railway.utility.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receive a message -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.railway.meetro" />
+                <!-- Receive a registration id -->
+                <!-- <action android:name="com.google.android.c2dm.intent.REGISTRATION" /> -->
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.railway.utility.GcmIntentService"
+            android:enabled="true" />
+    </application>
+
+</manifest>
