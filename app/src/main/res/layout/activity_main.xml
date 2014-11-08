@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            <TextView
+            <Button
                 android:id="@+id/makeRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
+            <Button
                 android:id="@+id/enterRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
