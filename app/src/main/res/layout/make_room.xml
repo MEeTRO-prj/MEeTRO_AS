@@ -9,95 +9,129 @@
         android:id="@+id/left_draw"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:id="@+id/left_draw_top"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp" >
+            android:layout_marginBottom="2dp"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/labelRailway"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#aaa"
+                android:textColor="#fff"
+                android:padding="16dp"
+                android:width="80dp"
+                android:gravity="center"
                 android:text="@string/label_railway" />
 
             <Spinner
                 android:id="@+id/spinnerRailway"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/left_draw_startst"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp" >
+            android:layout_marginBottom="2dp"
+            android:background="@color/white" >
 
             <TextView
                 android:id="@+id/labelStartSt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#aaa"
+                android:textColor="#fff"
+                android:padding="16dp"
+                android:width="80dp"
+                android:gravity="center"
                 android:text="@string/label_startst" />
 
             <Spinner
                 android:id="@+id/spinnerStartSt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/left_draw_endst"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:background="@color/white"
+            android:layout_marginBottom="2dp" >
 
             <TextView
                 android:id="@+id/labelEndSt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#aaa"
+                android:textColor="#fff"
+                android:padding="16dp"
+                android:width="80dp"
+                android:gravity="center"
                 android:text="@string/label_endst" />
 
             <Spinner
                 android:id="@+id/spinnerDestSt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/radioTimeType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-            <RadioButton
-                android:id="@+id/radioRide"
+            <TextView
+                android:id="@+id/dateDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/label_ridetime" />
+                android:textSize="24sp"
+                android:text="" />
 
-            <RadioButton
-                android:id="@+id/radioArrive"
+            <TextView
+                android:id="@+id/timeDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_arrivetime" />
-        </RadioGroup>
+                android:textSize="24sp"
+                android:text="" />
 
-        <TextView
-            android:id="@+id/dateDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+            <RadioGroup
+                android:id="@+id/radioTimeType"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white">
 
-        <TextView
-            android:id="@+id/timeDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+                <RadioButton
+                    android:id="@+id/radioRide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/label_ridetime" />
+
+                <RadioButton
+                    android:id="@+id/radioArrive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_arrivetime" />
+            </RadioGroup>
+        </LinearLayout>
 
         <Button
             android:id="@+id/buttonTrainSearch"
