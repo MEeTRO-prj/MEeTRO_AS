@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:padding="16dp" >
 
             <TextView
                 android:id="@+id/labelRailway"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:padding="16dp" >
 
             <TextView
                 android:id="@+id/labelStartSt"
@@ -103,7 +103,8 @@
             android:id="@+id/buttonTrainSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_train_search" />
+            android:text="@string/label_train_search"
+            style="@style/common_btn" />
 
     </LinearLayout>
 

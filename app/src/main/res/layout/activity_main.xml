@@ -1,7 +1,8 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bgr">
 
     <!-- The main content view -->
 
@@ -17,10 +18,8 @@
             android:orientation="vertical" >
             <Button
                 android:id="@+id/makeRoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:gravity="center"
+                style="@style/activity_main_btn"
+                android:drawableLeft="@drawable/ic_create"
                 android:text="@string/make_room" />
         </LinearLayout>
 
@@ -31,10 +30,8 @@
 
             <Button
                 android:id="@+id/enterRoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:gravity="center"
+                style="@style/activity_main_btn"
+                android:drawableLeft="@drawable/ic_enter"
                 android:text="@string/enter_room" />
         </LinearLayout>
     </LinearLayout>
