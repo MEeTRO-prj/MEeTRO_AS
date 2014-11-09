@@ -63,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
 		setContentView(R.layout.activity_main);
 		context = this.getApplicationContext();
 		
@@ -170,7 +169,6 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
 		// 改めてプリファレンスか、アプリ内DBからユーザ取得
 		userId = sp.getInt("userId", 0);
 		userName = sp.getString("userName", null);
@@ -235,7 +233,6 @@ public class MainActivity extends ActionBarActivity {
 				ListView listView = (ListView) adapterView;			
 				// クリックされたアイテムを取得します
 				String item = (String) listView.getItemAtPosition(position);
-				Toast.makeText(MainActivity.this, item, Toast.LENGTH_LONG).show();
 				Intent intent;
 				switch((int) listView.getItemIdAtPosition(position)) {
 				case 0: // ホーム

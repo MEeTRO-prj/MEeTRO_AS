@@ -3,6 +3,8 @@ package com.railway.utility;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import android.text.Html;
+import android.text.SpannableString;
 import android.widget.TextView;
 
 /*
@@ -32,7 +34,6 @@ public class CommonMethod {
 				.append(pad(hour)).append(":")
 				.append(pad(minute)));
 	}
-	
 	/*
 	 * dayOfWeekを(日)などに変換するメソッド
 	 * params: dayOfWeek

@@ -35,7 +35,6 @@ import android.widget.Toast;
 import com.railway.bean.DateTimeBean;
 import com.railway.bean.StationApiBean;
 import com.railway.helper.MeetroDbOpenHelper;
-import com.railway.meetro.R;
 import com.railway.utility.CommonConfig;
 import com.railway.utility.CommonMethod;
 
@@ -116,7 +115,6 @@ public class MakeRoomActivity extends ActionBarActivity {
 				bundle.putString("rdftype", "odpt:Station");
 				bundle.putString("odptParam", railwayIds[itemId]);
 				getSupportLoaderManager().initLoader(0, bundle, callbacks);
-				Toast.makeText(MakeRoomActivity.this, "路線:" + item + "が選択されました。", Toast.LENGTH_SHORT).show();
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
@@ -134,9 +132,6 @@ public class MakeRoomActivity extends ActionBarActivity {
 			// チェック状態が変更されたラジオボタンのIDが渡されます
 			public void onCheckedChanged(RadioGroup group, int checkedId) { 
 				radioButton = (RadioButton) findViewById(checkedId);
-				Toast.makeText(MakeRoomActivity.this,
-                        "onCheckedChanged():" + radioButton.getText(),
-                        Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -172,7 +167,7 @@ public class MakeRoomActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// 検索ボタンがクリックされた時に呼び出されます
 				if(startStCode.equals(destStCode)) {
-					Toast.makeText(MakeRoomActivity.this, "乗車駅と目的駅が同じだよ！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MakeRoomActivity.this, "乗車駅と目的駅が同じです。", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				// 乗車駅、下車駅、日時をBeanにぶっこむ

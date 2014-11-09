@@ -58,8 +58,7 @@ public class RoomTopActivity extends Activity {
 				// ポップアップメニューの項目を押下した時
 				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 					@Override
-					public boolean onMenuItemClick(MenuItem item) {				
-						Toast.makeText(RoomTopActivity.this, item.getItemId() + ":" + item.getTitle(),  Toast.LENGTH_SHORT).show();
+					public boolean onMenuItemClick(MenuItem item) {
 						return true;
 					}
 				});

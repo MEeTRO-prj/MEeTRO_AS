@@ -69,7 +69,7 @@ public class CompleteActivity extends Activity {
 		decideTime = getIntent().getStringExtra("decideTime");                  // Ex) 23:15
 		timeType = getIntent().getIntExtra("timeType", 0);                      // 0 or 1
 		carNum = getIntent().getIntExtra("carNum", 0);                          // Ex) 5
-		direction = getIntent().getStringExtra("direction");                  // Ex) odpt.RailDirection:TokyoMetro.Asakusa
+		direction = getIntent().getStringExtra("direction");                    // Ex) odpt.RailDirection:TokyoMetro.Asakusa
 
 		// Server上にそれぞれの情報を送り、PHPでDBにROOMとMEMBERを作る（非同期タスク）
 		new MakeNewRoom(this, roomUrl).execute(
@@ -81,7 +81,7 @@ public class CompleteActivity extends Activity {
 		// URLクリックでブラウザ起動してみる
 		roomUrl.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Uri uri = Uri.parse((String) roomUrl.getText());
+				Uri uri = Uri.parse(roomUrl.getText().toString());
 				Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 				startActivity(intent);
 			}
@@ -90,7 +90,7 @@ public class CompleteActivity extends Activity {
 		// クリップボードにコピー
 		copyBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				String copyUrl = (String) roomUrl.getText();
+				String copyUrl = roomUrl.getText().toString();
 
 				ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData.Item item = new ClipData.Item(copyUrl);
@@ -107,7 +107,7 @@ public class CompleteActivity extends Activity {
 		lineBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				String lineUrl = "http://line.me/R/msg/text/?";
-				Uri uri = Uri.parse(lineUrl + (String) roomUrl.getText());
+				Uri uri = Uri.parse(lineUrl + roomUrl.getText().toString());
 				Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 				startActivity(intent);
 			}
@@ -120,19 +120,6 @@ public class CompleteActivity extends Activity {
 				intent.putExtra("scene", "fromComplete");
 				int roomId = sp.getInt("roomId", 0);
 				intent.putExtra("room_id", roomId); // Ex) 110
-				System.out.println(roomId);
-				
-				//　RoomTopActivityに送るデータ一覧
-				// roomNumber     Ex) 2014102495
-				// roomDate       Ex) 2014年10月24日(金)
-				// roomTime       Ex) 12:15
-				// roomTimeType   Ex) 発,着
-				// roomRailway    Ex) 銀座線
-				// roomStartSt    Ex) 渋谷
-				// roomDestSt     Ex) 表参道
-				// endStTitle     Ex) 浅草
-				// trainTypeTitle Ex) 急行
-				// roomCarNum     Ex) 1
 
 				// 作成した部屋の情報をintentにputしたい
 				HashMap<String, String> roomInfo = new HashMap<String, String>();

@@ -105,6 +105,11 @@ public class MakeNewRoom extends AsyncTask<String, Void, String> {
 		// TrainTimetableAPIを叩く(レスポンス->json)
 		ServiceHandler serviceClient = new ServiceHandler();
 		String jsonTT = serviceClient.makeServiceCall(CommonConfig.getAPI_URL(), ServiceHandler.GET, paramsTT);
+		String station = null;
+		switch (Integer.parseInt(time_type)) {
+			case 0: station = ride_st;break;
+			case 1: station = dest_st;break;
+		}
 		// TrainTimetableAPIの返り値のJSON
 		JSONArray jsRoot2;
 		try {
@@ -126,7 +131,7 @@ public class MakeNewRoom extends AsyncTask<String, Void, String> {
 						depaTime = jsonOneRecord2.getString("odpt:arrivalTime");
 						departureSta = jsonOneRecord2.getString("odpt:arrivalStation");
 					}
-					if(ride_time.equals(depaTime) && ride_st.equals(departureSta)) {
+					if(ride_time.equals(depaTime) && station.equals(departureSta)) {
 						System.out.println("depaTime: " + depaTime + " departureSta: " + departureSta);
 						System.out.println(jsRoot2.getJSONObject(i).getString("odpt:trainNumber"));
 						trainNumber = jsRoot2.getJSONObject(i).getString("odpt:trainNumber");

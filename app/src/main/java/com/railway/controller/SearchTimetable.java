@@ -23,6 +23,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import android.widget.TextView;
  */
 public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, String>> {
 	private SearchTimetableCallback callbackListener = null;
+	private final static String TAG = "SearchTimetable";
 
 	private Activity activity;
 	ProgressDialog pDialog;
@@ -79,7 +81,7 @@ public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, Str
 		String railwayId = arg[0]; // Ex) odpt.Railway:TokyoMetro.Ginza
 		String direction = arg[1]; // Ex) odpt.RailDirection:TokyoMetro.Asakusa
 		String startStId = arg[2]; // Ex) odpt:Station.TokyoMetro.Shibuya
-		String endStId = arg[3];   // Ex) odpt:Station.TokyoMetro.Asakusa
+		String destStId = arg[3];   // Ex) odpt:Station.TokyoMetro.Asakusa
 		int mYear = Integer.parseInt(arg[4]);
 		int mMonth = Integer.parseInt(arg[5]);
 		int mDate = Integer.parseInt(arg[6]);
@@ -90,7 +92,12 @@ public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, Str
 		// APIに渡すパラメータをparamsに格納
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("rdf:type", "odpt:StationTimetable"));
-		params.add(new BasicNameValuePair("odpt:station", startStId));
+		Log.d(TAG, "timeType: " + timeType);
+		if("出発".equals(timeType)) {
+			params.add(new BasicNameValuePair("odpt:station", startStId));
+		} else {
+			params.add(new BasicNameValuePair("odpt:station", destStId));
+		}
 		params.add(new BasicNameValuePair("odpt:railDirection", direction));
 		params.add(new BasicNameValuePair("acl:consumerKey", CommonConfig.getACCESS_KEY()));
 
@@ -102,7 +109,7 @@ public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, Str
 		result.put("json", json);
 		result.put("railwayId", railwayId);
 		result.put("startStId", startStId);
-		result.put("endStId", endStId);
+		result.put("destStId", destStId);
 		result.put("mYear", arg[4]);
 		result.put("mMonth", arg[5]);
 		result.put("mDate", arg[6]);
@@ -134,7 +141,7 @@ public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, Str
 			// odpt:Station.TokyoMetro.部分を切り取ってから日本語に変換
 			// EX) odpt:Station.TokyoMetro.Shibuya -> Shibuya -> 渋谷
 			result.put("staCode", jsRoot.getString(startStId.substring(railwayId.length() + 1)));
-			result.put("endCode", jsRoot.getString(endStId.substring(railwayId.length() + 1)));
+			result.put("endCode", jsRoot.getString(destStId.substring(railwayId.length() + 1)));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -209,7 +216,7 @@ public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, Str
 				destSta = jsonOneRecord.getString("odpt:destinationStation");
 				sp = destSta.split("\\.");
 				if(sp[sp.length - 3].equals("Station:TokyoMetro")) {
-					destStaTitle = jsToTitleMetro.getString(sp[sp.length - 1]);					
+					destStaTitle = jsToTitleMetro.getString(sp[sp.length - 1]);
 				} else {
 					destStaTitle = jsToTitleOther.getString(destSta);
 				}
@@ -226,8 +233,11 @@ public class SearchTimetable extends AsyncTask<String, Void, HashMap<String, Str
 				} else if(trainType.equals("odpt.TrainType:TokyoMetro.Local")) {
 					trainTypeTitle = "各停";
 				}
-				list.add(depaTime + " : " + destStaTitle + "行き" + "  " + trainTypeTitle);
-				System.out.println(depaTime + " : " + destStaTitle + "行き" + "  " + trainTypeTitle);
+				if("出発".equals(result.get("timeType"))) {
+					list.add(depaTime + "発 : " + destStaTitle + "行き" + "  " + trainTypeTitle);
+				} else {
+					list.add(depaTime + "着 : " + destStaTitle + "行き" + "  " + trainTypeTitle);
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

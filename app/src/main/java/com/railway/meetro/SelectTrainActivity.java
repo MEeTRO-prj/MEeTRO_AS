@@ -137,7 +137,7 @@ public class SelectTrainActivity extends ActionBarActivity implements SearchTime
 				this, android.R.layout.simple_spinner_item);
 		adapterCarNum.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for(int i = 1; i <= car_num_max; i++) {
-			adapterCarNum.add(i);			
+			adapterCarNum.add(i);
 		}
 		spinnerCarNum.setAdapter(adapterCarNum);
 		spinnerCarNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -160,11 +160,11 @@ public class SelectTrainActivity extends ActionBarActivity implements SearchTime
 				ListView listView = (ListView) parent;
 				view.setSelected(true);
 				// クリックされたアイテムを取得
-				String timeDestTrainType = (String) listView.getItemAtPosition(position);       // Ex) 23:15 浅草行き 急行
+				String timeDestTrainType = (String) listView.getItemAtPosition(position);       // Ex) 23:15 : 浅草行き 急行
 				decideTime = timeDestTrainType.substring(0, 5);                                 // Ex) 23:15
 				int indexOfDestSt = timeDestTrainType.indexOf(" : ");
 				int indexOfTrainType = timeDestTrainType.indexOf("行き");
-				endStTitle = timeDestTrainType.substring(indexOfDestSt + 3, indexOfTrainType); // Ex) 浅草
+				endStTitle = timeDestTrainType.substring(indexOfDestSt + 3, indexOfTrainType);  // Ex) 浅草
 				trainTypeTitle = timeDestTrainType.substring(indexOfTrainType + 3);             // Ex) 急行
 				System.out.println(decideTime + " " + endStTitle + " " + trainTypeTitle);
 				decideBtn.setEnabled(true);
