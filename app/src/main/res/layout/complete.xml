@@ -22,8 +22,13 @@
             android:id="@+id/roomUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:gravity="center" />
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:background="@drawable/bgr_url"
+            android:autoText="true" />
 
         <Button
             android:id="@+id/copyUrl"
@@ -41,11 +46,9 @@
             android:text="@string/label_send_by_line" />
         <Button
             android:id="@+id/enterRoom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:enabled="true"
-            android:text="@string/enter_room" />
+            android:text="@string/enter_room"
+            style="@style/common_btn" />
         </LinearLayout>
 
     <!-- Navigation Drawer -->

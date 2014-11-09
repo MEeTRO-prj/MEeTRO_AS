@@ -39,4 +39,7 @@
     <color name="nanboku">#0fb29b</color>
     <color name="fukutoshin">#ab5a23</color>
 
+    <color name="meetroBlue">#1787cf</color>
+    <color name="actionBar">#ddffffff</color>
+
 </resources>
