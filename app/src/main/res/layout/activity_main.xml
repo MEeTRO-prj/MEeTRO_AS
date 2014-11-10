@@ -19,7 +19,7 @@
             <Button
                 android:id="@+id/makeRoom"
                 style="@style/activity_main_btn"
-                android:drawableLeft="@drawable/ic_create"
+                android:drawableLeft="@drawable/ic_create_home"
                 android:text="@string/make_room" />
         </LinearLayout>
 
@@ -31,7 +31,7 @@
             <Button
                 android:id="@+id/enterRoom"
                 style="@style/activity_main_btn"
-                android:drawableLeft="@drawable/ic_enter"
+                android:drawableLeft="@drawable/ic_enter_home"
                 android:text="@string/enter_room" />
         </LinearLayout>
     </LinearLayout>
