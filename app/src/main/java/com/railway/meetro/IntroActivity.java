@@ -30,7 +30,7 @@ public class IntroActivity extends Activity {
 				String action = getIntent().getAction();
 
 				// notificationからアプリを起動した時
-				if (intentType != null && intentType.equals("notification")) {					
+				if (intentType != null && intentType.equals("notification")) {
 					Log.v(TAG + " extras", getIntent().getExtras().toString());
 					// extrasからGcmIntentService.javaでいれたデータを取り出す
 					String msgContext = getIntent().getStringExtra("msgContext");
@@ -38,7 +38,7 @@ public class IntroActivity extends Activity {
 					Intent intent = new Intent(IntroActivity.this, MainActivity.class);
 					startActivity(intent);
 					// IntroActivityを終了する（戻るボタンの抑制）
-					IntroActivity.this.finish();					
+					IntroActivity.this.finish();
 				} 
 				// ブラウザからアプリを起動した時(パラメータ: room_id)
 				else if (Intent.ACTION_VIEW.equals(action)) {

@@ -21,20 +21,26 @@ import org.springframework.web.client.RestTemplate;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.railway.bean.RoomBean;
@@ -47,6 +53,7 @@ import com.railway.helper.MeetroDbOpenHelper;
 import com.railway.meetro.R;
 import com.railway.utility.CommonConfig;
 import com.railway.utility.CommonMethod;
+import com.railway.utility.DrawerItemClickListener;
 
 /*
  * 自分が乗車する駅を選択する画面
@@ -54,6 +61,13 @@ import com.railway.utility.CommonMethod;
  */
 public class SelectStationActivity extends ActionBarActivity implements SearchRoomCallback {
 	String TAG = "SelectStationActivity";
+	private Context context;
+
+	// NavigationDrawer
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
 
 	// ユーザ情報の変数
 	SharedPreferences sp;
@@ -84,7 +98,7 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_station);
-		System.out.println("Here is SelectStationActivity.");
+		context = this.getApplicationContext();
 
 		sp = PreferenceManager.getDefaultSharedPreferences(SelectStationActivity.this);
 		userId = sp.getInt("userId", 0);
@@ -94,6 +108,11 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 		adapterRideSt = new ArrayAdapter<String>(
 				this, android.R.layout.simple_spinner_item);
 		adapterRideSt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		// DrawerLayout
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		setupNavigationDrawer();
 
 		// パラメータ: room_id
 		roomId = getIntent().getStringExtra("roomId");
@@ -353,5 +372,43 @@ public class SelectStationActivity extends ActionBarActivity implements SearchRo
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	// NavigationDrawerの設定
+	private void setupNavigationDrawer() {
+		// 前に戻るボタン->onOptionsItemSelected()と、左上のアイコンの有効化
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		// DrawerListを開く/閉じるトグルボタン
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		// アダプターの生成
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+				this, R.array.menuList, android.R.layout.simple_list_item_1);
+		mDrawerList.setAdapter(adapter);
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener(context, mDrawerLayout, mDrawerList));
+	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.syncState();
+	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

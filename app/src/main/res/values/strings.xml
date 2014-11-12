@@ -32,10 +32,10 @@
         <item>ホーム</item>
         <item>部屋を作る</item>
         <item>部屋に入る</item>
-        <item>チュートリアル</item>
-        <item>使い方</item>
-        <item>ご意見・ご要望</item>
-        <item>開発者について</item>
+        <!--<item>チュートリアル</item>-->
+        <!--<item>使い方</item>-->
+        <!--<item>ご意見・ご要望</item>-->
+        <!--<item>開発者について</item>-->
     </array>
 
 </resources>

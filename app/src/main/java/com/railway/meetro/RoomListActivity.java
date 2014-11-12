@@ -3,11 +3,18 @@ package com.railway.meetro;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,12 +26,14 @@ import com.railway.bean.RoomBean;
 import com.railway.controller.SearchRoomList;
 import com.railway.controller.SearchRoomListCallback;
 import com.railway.meetro.R;
+import com.railway.utility.DrawerItemClickListener;
 
 /*
  * 自分が所属する部屋の一覧画面
  */
-public class RoomListActivity extends Activity implements SearchRoomListCallback {
+public class RoomListActivity extends ActionBarActivity implements SearchRoomListCallback {
 	private final static String TAG = "RoomListActivity";
+	private Context context;
 
 	// ユーザ情報の変数
 	SharedPreferences sp;
@@ -35,10 +44,17 @@ public class RoomListActivity extends Activity implements SearchRoomListCallback
 	SearchRoomList searchRoomList;
 	private ListView viewRoomList;
 
+	// NavigationDrawer
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.room_list);
+		context = this.getApplicationContext();
 
 		viewRoomList = (ListView) findViewById(R.id.listRoom);
 
@@ -50,6 +66,11 @@ public class RoomListActivity extends Activity implements SearchRoomListCallback
 		String scene = "";
 		scene = getIntent().getStringExtra("scene");
 		Log.d(TAG, "scene: " + scene);
+
+		// DrawerLayout
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		setupNavigationDrawer();
 
 		// MainActivityから来た場合
 		if(scene != null && scene.equals("fromMain")) {
@@ -115,5 +136,43 @@ public class RoomListActivity extends Activity implements SearchRoomListCallback
 //			intent.putExtra("roomId", roomId);
 //			startActivity(intent);
 //		}
+	}
+
+	// NavigationDrawerの設定
+	private void setupNavigationDrawer() {
+		// 前に戻るボタン->onOptionsItemSelected()と、左上のアイコンの有効化
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		// DrawerListを開く/閉じるトグルボタン
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		// アダプターの生成
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+				this, R.array.menuList, android.R.layout.simple_list_item_1);
+		mDrawerList.setAdapter(adapter);
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener(context, mDrawerLayout, mDrawerList));
+	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.syncState();
+	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

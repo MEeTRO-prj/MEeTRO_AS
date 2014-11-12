@@ -2,25 +2,41 @@ package com.railway.meetro;
 
 import java.util.HashMap;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.railway.meetro.R;
+import com.railway.utility.DrawerItemClickListener;
 
-public class RoomTopActivity extends Activity {
+public class RoomTopActivity extends ActionBarActivity {
 	String TAG = "RoomListActivity";
+	private Context context;
+
+	// NavigationDrawer
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.room_top);		
-		System.out.println("Here is RoomTopActivity.");
+		setContentView(R.layout.room_top);
+		context = this.getApplicationContext();
 
 		// 遷移元がどこであっても同じインタフェースで部屋情報を取得する
 		Intent intentHash = getIntent();
@@ -34,6 +50,11 @@ public class RoomTopActivity extends Activity {
 		TextView rideTime = (TextView) findViewById(R.id.rideTime);
 		TextView timeType = (TextView) findViewById(R.id.timeType);
 		TextView carNum = (TextView) findViewById(R.id.carNum);
+
+		// DrawerLayout
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		setupNavigationDrawer();
 
 		//		String roomNumber = roomInfo.get("roomNumber");             // Ex) 20141024102
 		//		String roomEndSt = roomInfo.get("roomDestSt");              // Ex) 表参道
@@ -64,5 +85,43 @@ public class RoomTopActivity extends Activity {
 				});
 			}
 		});
+	}
+
+	// NavigationDrawerの設定
+	private void setupNavigationDrawer() {
+		// 前に戻るボタン->onOptionsItemSelected()と、左上のアイコンの有効化
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		// DrawerListを開く/閉じるトグルボタン
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		// アダプターの生成
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+				this, R.array.menuList, android.R.layout.simple_list_item_1);
+		mDrawerList.setAdapter(adapter);
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener(context, mDrawerLayout, mDrawerList));
+	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.syncState();
+	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

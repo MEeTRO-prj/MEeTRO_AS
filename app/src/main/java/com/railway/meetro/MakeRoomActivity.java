@@ -12,19 +12,25 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -37,9 +43,11 @@ import com.railway.bean.StationApiBean;
 import com.railway.helper.MeetroDbOpenHelper;
 import com.railway.utility.CommonConfig;
 import com.railway.utility.CommonMethod;
+import com.railway.utility.DrawerItemClickListener;
 
 public class MakeRoomActivity extends ActionBarActivity {
 	private final static String TAG = "MakeRoomActivity";
+	private Context context;
 
 	// 路線、駅設定関連
 	ArrayAdapter<String> adapterRailway;
@@ -70,10 +78,17 @@ public class MakeRoomActivity extends ActionBarActivity {
 	private String destStCode;   // Ex) G19
 	private RadioButton radioButton; // 出発 or 到着
 
+	// NavigationDrawer
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.make_room);
+		context = this.getApplicationContext();
 
 		// Adapterの作成
 		adapterRailway = new ArrayAdapter<String>(
@@ -85,6 +100,11 @@ public class MakeRoomActivity extends ActionBarActivity {
 		adapterdestSt = new ArrayAdapter<String>(
 				this, android.R.layout.simple_spinner_item);
 		adapterdestSt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		// DrawerLayout
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		setupNavigationDrawer();
 
 		// 路線情報の取得
 		MeetroDbOpenHelper meetroHelper = new MeetroDbOpenHelper(this);
@@ -341,5 +361,42 @@ public class MakeRoomActivity extends ActionBarActivity {
 				return null;
 			}
 		}
+	}
+	// NavigationDrawerの設定
+	private void setupNavigationDrawer() {
+		// 前に戻るボタン->onOptionsItemSelected()と、左上のアイコンの有効化
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		// DrawerListを開く/閉じるトグルボタン
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		// アダプターの生成
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+				this, R.array.menuList, android.R.layout.simple_list_item_1);
+		mDrawerList.setAdapter(adapter);
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener(context, mDrawerLayout, mDrawerList));
+	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.syncState();
+	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

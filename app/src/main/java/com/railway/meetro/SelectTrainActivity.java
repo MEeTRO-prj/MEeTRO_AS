@@ -5,14 +5,21 @@ import com.railway.bean.StationApiBean;
 import com.railway.controller.SearchTimetableCallback;
 import com.railway.controller.SearchTimetable;
 import com.railway.helper.MeetroDbOpenHelper;
+import com.railway.utility.DrawerItemClickListener;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +33,7 @@ import android.widget.TextView;
  */
 public class SelectTrainActivity extends ActionBarActivity implements SearchTimetableCallback {
 	private final static String TAG = "SelectTrainActivity";
+	private Context context;
 
 	private StationApiBean startSt;
 	private StationApiBean destSt;
@@ -62,10 +70,17 @@ public class SelectTrainActivity extends ActionBarActivity implements SearchTime
 	// DB
 	MeetroDbOpenHelper userHelper = new MeetroDbOpenHelper(this);
 
+	// NavigationDrawer
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_train);
+		context = this.getApplicationContext();
 
 		viewRailwayDecide = (TextView)findViewById(R.id.viewRailwayDecide);
 		viewStartStDecide = (TextView)findViewById(R.id.viewStartStDecide);
@@ -74,6 +89,11 @@ public class SelectTrainActivity extends ActionBarActivity implements SearchTime
 		timeDisplay = (TextView)findViewById(R.id.timeDisplay);
 		timeTypeDisplay = (TextView)findViewById(R.id.timeTypeDisplay);
 		viewTimetable = (ListView)findViewById(R.id.listTimetable);
+
+		// DrawerLayout
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		setupNavigationDrawer();
 
 		// intentから指定キーのカスタムクラスを取得する
 		railwayId = getIntent().getStringExtra("railwayIdDecide");
@@ -199,5 +219,43 @@ public class SelectTrainActivity extends ActionBarActivity implements SearchTime
 	@Override
 	public void onPostExecute(ArrayAdapter<String> adapterTime) {
 		viewTimetable.setAdapter(adapterTime);
+	}
+
+	// NavigationDrawerの設定
+	private void setupNavigationDrawer() {
+		// 前に戻るボタン->onOptionsItemSelected()と、左上のアイコンの有効化
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		// DrawerListを開く/閉じるトグルボタン
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		// アダプターの生成
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+				this, R.array.menuList, android.R.layout.simple_list_item_1);
+		mDrawerList.setAdapter(adapter);
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener(context, mDrawerLayout, mDrawerList));
+	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.syncState();
+	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// DrawerToggleの状態を同期する
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

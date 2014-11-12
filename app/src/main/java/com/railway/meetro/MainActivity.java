@@ -5,6 +5,7 @@ import com.railway.helper.CheckGcmHelper;
 import com.railway.helper.MeetroDbOpenHelper;
 import com.railway.controller.AddNewUser;
 import com.railway.controller.UpdateUser;
+import com.railway.utility.DrawerItemClickListener;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -210,7 +211,7 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	// NavigationDrawerの設定
-	private void setupNavigationDrawer() {		
+	private void setupNavigationDrawer() {
 		// 前に戻るボタン->onOptionsItemSelected()と、左上のアイコンの有効化
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -225,46 +226,7 @@ public class MainActivity extends ActionBarActivity {
 		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
 				this, R.array.menuList, android.R.layout.simple_list_item_1);
 		mDrawerList.setAdapter(adapter);
-
-		// ナビゲーションドロワーがクリックされた時の挙動
-		mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-				ListView listView = (ListView) adapterView;			
-				// クリックされたアイテムを取得します
-				String item = (String) listView.getItemAtPosition(position);
-				Intent intent;
-				switch((int) listView.getItemIdAtPosition(position)) {
-				case 0: // ホーム
-					mDrawerLayout.closeDrawer(mDrawerList);
-					break;
-				case 1: // 部屋を作る
-					intent = new Intent(MainActivity.this, MakeRoomActivity.class);
-					startActivity(intent);
-					break;
-				case 2: // 部屋に入る
-					intent = new Intent(MainActivity.this, RoomListActivity.class);
-					intent.putExtra("scene", "fromMain");
-					startActivity(intent);
-					break;
-				case 3: // チュートリアル
-					mDrawerLayout.closeDrawer(mDrawerList);
-					break;
-				case 4: // 使い方
-					mDrawerLayout.closeDrawer(mDrawerList);
-					break;
-				case 5: // ご意見・ご慕容
-					mDrawerLayout.closeDrawer(mDrawerList);
-					break;
-				case 6: // 開発者について
-					mDrawerLayout.closeDrawer(mDrawerList);
-					break;
-				default:
-					// DrawerLayoutを閉じる
-					mDrawerLayout.closeDrawer(mDrawerList);
-				}
-			}
-		});
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener(context, mDrawerLayout, mDrawerList));
 	}
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
