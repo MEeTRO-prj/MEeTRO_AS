@@ -149,7 +149,7 @@
 
             <LinearLayout
                 android:id="@+id/left_draw_carnum"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="16dp"
@@ -172,7 +172,7 @@
 
                 <Spinner
                     android:id="@+id/spinnerCarNum"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -186,6 +186,8 @@
                     android:enabled="false"
                     android:text="@string/label_decide_time"
                     style="@style/common_btn"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="0dp"/>
             </LinearLayout>
         </LinearLayout>

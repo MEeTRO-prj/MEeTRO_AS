@@ -75,6 +75,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:enabled="false"
+            style="@style/common_btn"
 			android:text="@string/label_sorry_late" />
 	</LinearLayout>
 </LinearLayout>

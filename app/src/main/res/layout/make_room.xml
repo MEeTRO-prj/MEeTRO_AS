@@ -18,15 +18,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="2dp"
-            android:background="@color/white">
+            android:padding="2dp"
+            android:background="@color/meetroBlue">
 
             <TextView
                 android:id="@+id/labelRailway"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#aaa"
+                android:background="@color/meetroBlue"
                 android:textColor="#fff"
-                android:padding="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
                 android:width="80dp"
                 android:gravity="center"
                 android:text="@string/label_railway" />
@@ -34,9 +38,10 @@
             <Spinner
                 android:id="@+id/spinnerRailway"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textColor="#fff" />
+                android:background="@color/white"
+                android:clickable="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,9 +65,10 @@
 
             <Spinner
                 android:id="@+id/spinnerStartSt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:clickable="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,51 +92,73 @@
 
             <Spinner
                 android:id="@+id/spinnerDestSt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:clickable="true" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_marginTop="8dp">
 
-            <TextView
-                android:id="@+id/dateDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/timeDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:text="" />
-
-            <RadioGroup
-                android:id="@+id/radioTimeType"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_marginBottom="2dp"
                 android:background="@color/white">
 
-                <RadioButton
-                    android:id="@+id/radioRide"
+                <TextView
+                    android:id="@+id/dateDisplay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/label_ridetime" />
+                    android:textSize="24sp"
+                    android:text=""
+                    android:layout_marginRight="16dp"/>
 
-                <RadioButton
-                    android:id="@+id/radioArrive"
+                <TextView
+                    android:id="@+id/timeDisplay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_arrivetime" />
-            </RadioGroup>
+                    android:textSize="24sp"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <RadioGroup
+                    android:id="@+id/radioTimeType"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@color/white">
+
+                    <RadioButton
+                        android:id="@+id/radioRide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/label_ridetime"
+                        android:layout_marginRight="16dp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioArrive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_arrivetime" />
+                </RadioGroup>
+            </LinearLayout>
+
         </LinearLayout>
 
         <Button
