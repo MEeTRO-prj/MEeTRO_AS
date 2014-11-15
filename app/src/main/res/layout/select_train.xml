@@ -13,48 +13,69 @@
 
         <LinearLayout
             android:id="@+id/left_draw_top"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:paddingTop="16dp"
+            android:gravity="center">
 
-            <TextView
+            <!-- TextView
                 android:id="@+id/labelRailway"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_railway" />
+                android:text="@string/label_railway"
+                android:textSize="24sp" / -->
 
             <TextView
                 android:id="@+id/viewRailwayDecide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/left_draw_startst"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:gravity="center">
 
-            <TextView
+            <!-- TextView
                 android:id="@+id/labelStartSt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_startst" />
+                android:text="@string/label_startst" / -->
 
             <TextView
                 android:id="@+id/viewStartStDecide"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:text=">"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+            <TextView
+                android:id="@+id/viewEndStDecide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+
         </LinearLayout>
 
-        <LinearLayout
+        <!-- LinearLayout
             android:id="@+id/left_draw_endst"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:padding="16dp" >
 
             <TextView
                 android:id="@+id/labelEndSt"
@@ -66,79 +87,106 @@
                 android:id="@+id/viewEndStDecide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </LinearLayout-->
 
         <LinearLayout
             android:id="@+id/left_draw_datetime"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp" >
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/dateDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/timeDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/timeTypeDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/left_draw_carnum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="30dp" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-            <TextView
-                android:id="@+id/labelCarNum"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_carnum" />
-
-            <Spinner
-                android:id="@+id/spinnerCarNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/imageView"
+                android:background="@drawable/bgr_arrow" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:padding="5dp" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ListView
                 android:id="@+id/listTimetable"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/white" >
+                android:background="@color/white"
+                android:textSize="20sp">
             </ListView>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:id="@+id/left_draw_carnum"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" >
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
+                android:layout_marginBottom="2dp">
+
+                <TextView
+                    android:id="@+id/labelCarNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_carnum"
+                    android:background="#aaa"
+                    android:textColor="#fff"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:width="80dp"
+                    android:gravity="center" />
+
+                <Spinner
+                    android:id="@+id/spinnerCarNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/buttonDecideTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:enabled="false"
-                    android:text="@string/label_decide_time" />
+                    android:text="@string/label_decide_time"
+                    style="@style/common_btn"
+                    android:layout_marginTop="0dp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
