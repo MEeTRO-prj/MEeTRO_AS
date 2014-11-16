@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +65,7 @@ public class RoomTopActivity extends ActionBarActivity {
 		timeType.setText(roomInfo.get("roomTimeType"));             // Ex) 発
 		carNum.setText(roomInfo.get("roomCarNum"));                 // Ex) 3
 
-		Button popupBtn = (Button) findViewById(R.id.popupBtn);
+		ImageButton popupBtn = (ImageButton) findViewById(R.id.popupBtn);
 		popupBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
