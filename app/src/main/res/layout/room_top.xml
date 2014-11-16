@@ -147,7 +147,8 @@
 				android:layout_height="wrap_content"
 				android:enabled="false"
 				android:text="@string/label_sorry_late"
-                style="@style/common_btn"/>
+                style="@style/common_btn"
+                android:layout_marginTop="10dp"/>
 		</LinearLayout>
 	</LinearLayout>
 	<!-- Navigation Drawer -->

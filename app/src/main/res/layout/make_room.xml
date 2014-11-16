@@ -27,8 +27,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/meetroBlue"
                 android:textColor="#fff"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="24dp"
                 android:paddingBottom="24dp"
                 android:width="80dp"
@@ -58,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:background="#aaa"
                 android:textColor="#fff"
-                android:padding="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:width="80dp"
                 android:gravity="center"
                 android:text="@string/label_startst" />
@@ -85,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:background="#aaa"
                 android:textColor="#fff"
-                android:padding="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:width="80dp"
                 android:gravity="center"
                 android:text="@string/label_endst" />

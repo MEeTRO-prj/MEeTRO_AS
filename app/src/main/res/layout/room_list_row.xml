@@ -23,23 +23,31 @@
 		android:layout_height="match_parent"
 		android:textSize="12sp"/>
 
-	<TextView
-		android:id="@+id/roomStartSt"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
-		android:textSize="20sp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="25sp">
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text=">"
-		android:id="@+id/textView2"
-		android:layout_marginRight="8dp"
-		android:layout_marginLeft="8dp"/>
+        <TextView
+            android:id="@+id/roomStartSt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp"/>
 
-	<TextView
-		android:id="@+id/roomDestSt"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
-		android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:id="@+id/textView2"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/roomDestSt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp" />
+    </LinearLayout>
+
 </LinearLayout>
