@@ -21,7 +21,7 @@
     <uses-permission android:name="com.railway.meetro.c2dm.permission.RECEIVE" />
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
     <application

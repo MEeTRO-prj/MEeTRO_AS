@@ -50,11 +50,8 @@ public class RoomTopActivity extends ActionBarActivity {
 		TextView rideTime = (TextView) findViewById(R.id.rideTime);
 		TextView timeType = (TextView) findViewById(R.id.timeType);
 		TextView carNum = (TextView) findViewById(R.id.carNum);
-
-		// DrawerLayout
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-		setupNavigationDrawer();
+		System.out.println(roomInfo.get("roomStartSt"));
+		System.out.println(roomInfo.get("roomDate"));
 
 		//		String roomNumber = roomInfo.get("roomNumber");             // Ex) 20141024102
 		//		String roomEndSt = roomInfo.get("roomDestSt");              // Ex) 表参道
@@ -85,6 +82,10 @@ public class RoomTopActivity extends ActionBarActivity {
 				});
 			}
 		});
+		// DrawerLayout
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		setupNavigationDrawer();
 	}
 
 	// NavigationDrawerの設定

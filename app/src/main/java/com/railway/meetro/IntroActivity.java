@@ -59,7 +59,7 @@ public class IntroActivity extends Activity {
 					Intent intent = new Intent(IntroActivity.this, MainActivity.class);
 					startActivity(intent);
 					// IntroActivityを終了する（戻るボタンの抑制）
-					IntroActivity.this.finish();					
+					IntroActivity.this.finish();
 				}
 			}
 		}, 2 * 1000); // 2000ミリ秒後（2秒後）に実行
