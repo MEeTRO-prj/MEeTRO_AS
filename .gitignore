@@ -19,3 +19,4 @@ proguard/
 .gradle
 .DS_Store
 CommonConfig.java
+modules.xml
