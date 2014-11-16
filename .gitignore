@@ -20,3 +20,4 @@ proguard/
 .DS_Store
 CommonConfig.java
 modules.xml
+meetro.jks
