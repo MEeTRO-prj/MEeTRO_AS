@@ -1,11 +1,17 @@
 package com.railway.meetro;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.railway.helper.CheckGcmHelper;
 import com.railway.meetro.R;
+import com.railway.utility.CommonConfig;
 import com.railway.utility.DrawerItemClickListener;
 
 public class RoomTopActivity extends ActionBarActivity {
@@ -31,13 +39,22 @@ public class RoomTopActivity extends ActionBarActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+	AsyncTask<Void, Void, String> informTask = null;
+	String roomNumber;
 
+	SharedPreferences sp;
+	public int userId;
+	public String userName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.room_top);
 		context = this.getApplicationContext();
+
+		sp = PreferenceManager.getDefaultSharedPreferences(RoomTopActivity.this);
+		userId = sp.getInt("userId", 0);
+		userName = sp.getString("userName", null);
 
 		// 遷移元がどこであっても同じインタフェースで部屋情報を取得する
 		Intent intentHash = getIntent();
@@ -51,10 +68,9 @@ public class RoomTopActivity extends ActionBarActivity {
 		TextView rideTime = (TextView) findViewById(R.id.rideTime);
 		TextView timeType = (TextView) findViewById(R.id.timeType);
 		TextView carNum = (TextView) findViewById(R.id.carNum);
-		System.out.println(roomInfo.get("roomStartSt"));
-		System.out.println(roomInfo.get("roomDate"));
 
-		//		String roomNumber = roomInfo.get("roomNumber");             // Ex) 20141024102
+		roomNumber = roomInfo.get("roomNumber");             // Ex) 20141024102
+		System.out.println("roomNumber: " + roomNumber);
 		//		String roomEndSt = roomInfo.get("roomDestSt");              // Ex) 表参道
 		decideRailway.setText(roomInfo.get("roomRailway"));         // Ex) 銀座線
 		rideStartSt.setText(roomInfo.get("roomStartSt") + "駅");    // Ex) 渋谷駅
@@ -78,15 +94,59 @@ public class RoomTopActivity extends ActionBarActivity {
 				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
+						Toast.makeText(RoomTopActivity.this, "Sorry, it is constructing now.", Toast.LENGTH_LONG).show();
 						return true;
 					}
 				});
 			}
 		});
+		final Button sorryBtn = (Button) findViewById(R.id.buttonSorryLate);
+		sorryBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// GCM通知でHttpConnectをするため非同期処理
+				informTask = new AsyncTask<Void, Void, String>() {
+					@Override
+					protected String doInBackground(Void... params) {
+						String roomId = roomNumber.substring(8);
+						System.out.println("roomId: " + roomId);
+						// GCMでROOMのOWNERに遅れを通知する
+						informRoomOwnerGCM(roomId, userId, userName);
+						return null;
+					}
+					@Override
+					protected void onPostExecute(String result) {
+						informTask = null;
+					}
+				};
+				sorryBtn.setEnabled(false);
+				Toast.makeText(RoomTopActivity.this, "遅延通知を送信しました。", Toast.LENGTH_LONG).show();
+				informTask.execute(null, null, null);
+			}
+		});
+
 		// DrawerLayout
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		setupNavigationDrawer();
+	}
+
+	// 集合に遅れることを部屋参加者に通知する
+	public boolean informRoomOwnerGCM(String roomId, int userId, String userName) {
+		String serverUrl = CommonConfig.getSERVER_URL() + "GCM_late.php";
+		System.out.println("serverUrl: " + serverUrl);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("ROOM_ID", roomId);
+		params.put("USER_ID", String.valueOf(userId));
+		params.put("USER_NAME", userName);
+		try {
+			CheckGcmHelper cgh = new CheckGcmHelper(RoomTopActivity.this, RoomTopActivity.this);
+			cgh.post(serverUrl, params);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	// NavigationDrawerの設定

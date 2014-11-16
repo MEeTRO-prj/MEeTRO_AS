@@ -17,16 +17,6 @@
 			android:orientation="vertical"
             android:gravity="center" >
 
-            <!--<Button-->
-				<!--android:id="@+id/popupBtn"-->
-				<!--android:layout_width="wrap_content"-->
-				<!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:background="@drawable/ic_overflow"-->
-                <!--android:width="48dp"-->
-                <!--android:height="48dp"/>-->
-            <!-- Button から ImageButtonに変更 -->
-
             <ImageButton
                 android:id="@+id/popupBtn"
                 android:layout_width="wrap_content"
@@ -145,7 +135,6 @@
 				android:id="@+id/buttonSorryLate"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:enabled="false"
 				android:text="@string/label_sorry_late"
                 style="@style/common_btn"
                 android:layout_marginTop="10dp"/>
